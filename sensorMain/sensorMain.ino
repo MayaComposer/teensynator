@@ -39,8 +39,19 @@ void loop() {
 //    Serial.print(serialvalue); // echo the received serial value
 //    Serial.println(); // print a line-feed
 
-    Serial.println("Ping: ");
-    Serial.println(sonar.convert_cm(uS)); // Convert ping time to distance and print result 
+    Serial.print("Distance: ");
+    Serial.print(" "); // print a space
+    Serial.print(sonar.convert_cm(uS)); // Convert ping time to distance and print result 
+    Serial.print(" "); // print a space
+    Serial.print("cm");
+    Serial.print(" "); //print a space
+    Serial.print("Time:"); //
+    Serial.print(" "); // print a space
+    Serial.print(sonar.ping()); // Send a ping, returns the echo time in microseconds 
+    //or 0 (zero) if no ping echo within set distance limit
+    Serial.print(" ");
+    Serial.println("ms");
+    
     //(0 = outside set distance range, no ping echo)
 //    Serial.println("cm");
     countervalue = (countervalue+1)%1000; // increment the counter
