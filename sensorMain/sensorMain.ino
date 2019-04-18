@@ -11,7 +11,7 @@ int serialvalue; // value for serial input
 int started = 0; // flag for whether we've received serial yet
 
 void setup() {
-  Serial.begin(9600); // Open serial monitor at 115200 baud to see ping results.
+  Serial.begin(115200); // Open serial monitor at 115200 baud to see ping results.
   pinMode(13, OUTPUT);
   digitalWrite(13, HIGH);
   delay(50);
@@ -30,7 +30,7 @@ void loop() {
     serialvalue = Serial.read(); // read a byte of serial data
     started = 1; // set the started flag to on
   }
-  if(started) { // loop once serial data has been received
+  //if(started) { // loop once serial data has been received
 //    randomvalue = random(1000); // pick a new random number
 //    Serial.print(countervalue); // print the counter
 //    Serial.print(" "); // print a space
