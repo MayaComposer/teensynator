@@ -1,18 +1,46 @@
+//OSC
+(
+thisProcess.openUDPPort(7777);
+thisProcess.openPorts;
+)
+
+(
+~s = Synth(\synth);
+
+~osc = OSCFunc(func: {arg msg;
+	~s.set(\freq, msg[1])
+}, path: \freq);
+)
+
 (
 SynthDef(\synth, {
-	arg freq = 30, amp = 0.5, density = 1000, ffreq = 1200;
+	arg freq = 30, amp = 0.5, density = 1000, ffreq = 1200, time = 10;
 	//
 	~dust1 = Dust.kr(density: density);
 	~dust2 = Dust.kr(density: density);
 	~sig = Saw.ar(freq, [~dust1 * amp, ~dust2 * amp]);
 	~sig = LPF.ar(~sig, ffreq);
-	~sig = Limiter.ar(~sig, amp);
+	~reverb = JPverb.ar(~sig,
+		t60: time,
+		damp: 0.7,
+		size: time,
+		earlyDiff: 0.707,
+		modDepth: 0.8,
+		modFreq: 2.0,
+		low: 1.0,
+		mid: 0,
+		high: 0,
+		lowcut: 0,
+		highcut: 20000.0);
+	~sig = Limiter.ar(~sig + ~reverb / 2, amp);
 	Out.ar([0, 1], ~sig);
 }).add;
 
 ~s = Synth(\synth, [\freq, 1000]);
 
 )
+
+~s.set(\time, 0.1);
 
 
 // ---  GUI  ---
@@ -58,5 +86,19 @@ c = EZSlider(
 		~s.set(\ffreq, c.value);
 	}
 );
+// reverb
+d = EZSlider(
+	parent: w,
+	bounds: Rect(10, 140, 200, 20),
+	label: "reverb",
+	controlSpec: ControlSpec.new(
+		minval: 0.1,
+		maxval: 60.0),
+	action: {
+		~s.set(\time, d.value);
+	}
+);
 //
 )
+
+JPverb.ar(~s, t60: 1.0, damp: 0.0, size: 1.0, earlyDiff: 0.707, modDepth: 0.1, modFreq: 2.0, low: 1.0, mid: 1.0, high: 1.0, lowcut: 500.0, highcut: 2000.0)
