@@ -16,7 +16,7 @@ thisProcess.openPorts;
 
 (
 SynthDef(\synth, {
-	arg freq = 1, amp = 0.8, density = 119, ffreq = 10000, time = 60;
+	arg freq = 1, amp = 0.5, density = 119, ffreq = 10000, time = 60;
 	//
 	~dust1 = Dust.kr(density: density);
 	~dust2 = Dust.kr(density: density);
@@ -41,13 +41,15 @@ SynthDef(\synth, {
 		high: 0,
 		lowcut: 0,
 		highcut: 20000.0);
-	~sig = Limiter.ar(~sig + ~reverb / 5, amp);
+	~sig = Limiter.ar(~sig / 2 + ~reverb / 5, amp);
 	Out.ar([0, 1], ~sig);
 }).add;
 
 ~s = Synth(\synth);
 
 )
+
+//limiter werkt niet als je de frequentie van de synth verhoogt
 
 ~s.set(\time, 10);
 
