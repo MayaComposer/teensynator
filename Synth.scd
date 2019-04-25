@@ -26,7 +26,7 @@ SynthDef(\synth, {
 		t60: 1.0,
 		damp: 0.7,
 		size: time,
-		earlyDiff: 0.707,
+		earlyDiff: 0.2,
 		modDepth: 0.8,
 		modFreq: time,
 		low: 1.0,
