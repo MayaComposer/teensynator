@@ -30,19 +30,32 @@ SynthDef(\synth, {
 		modDepth: 0.8,
 		modFreq: time,
 		low: 1.0,
-		mid: 0,
-		high: 0,
-		lowcut: 0,
-		highcut: 20000.0);
+		mid: 1.0,
+		high: 1.0,
+		lowcut: 500,
+		highcut: 2000);
 	~sig = Limiter.ar(~sig / 2 + ~reverb / 5, amp);
-	Out.ar([0, 1], Limiter.ar(~sig));
+	Out.ar([0, 1], Limiter.ar(~sig, 0.1));
 }).add;
 
 ~s = Synth(\synth);
 
-~osc = OSCFunc(func: {arg msg;
+//osc functions
+~freq = OSCFunc(func: {arg msg;
 	~s.set(\freq, msg[1]);
 }, path: \freq);
+
+~ffreq = OSCFunc(func: {arg msg;
+	~s.set(\ffreq, msg[1]);
+}, path: \ffreq);
+
+~density = OSCFunc(func: {arg msg;
+	~s.set(\density, msg[1]);
+}, path: \density);
+
+~time = OSCFunc(func: {arg msg;
+	~s.set(\time, msg[1]);
+}, path: \time);
 )
 
 //limiter werkt niet als je de frequentie van de synth verhoogt
