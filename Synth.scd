@@ -9,7 +9,7 @@ thisProcess.openPorts;
 
 (
 SynthDef(\synth, {
-	arg freq = 1, amp = 0.5, density = 119, ffreq = 10000, time = 60;
+	arg freq = 200, amp = 0.5, density = 119, ffreq = 10000, time = 60;
 	//
 	~dust1 = Dust.kr(density: density);
 	~dust2 = Dust.kr(density: density);
@@ -18,7 +18,7 @@ SynthDef(\synth, {
 	~sig = CombL.ar(
 		in: ~sig,
 		maxdelaytime: 0.2,
-		delaytime: 1 / freq,
+		delaytime: time,
 		decaytime: 1.0,
 		mul: 1.0,
 		add: 0.0);
@@ -35,7 +35,7 @@ SynthDef(\synth, {
 		lowcut: 500,
 		highcut: 2000);
 	~sig = Limiter.ar(~sig / 2 + ~reverb / 5, amp);
-	Out.ar([0, 1], Limiter.ar(~sig, 0.1));
+	Out.ar([0, 1], Limiter.ar(~sig, 0.5));
 }).add;
 
 ~s = Synth(\synth);
