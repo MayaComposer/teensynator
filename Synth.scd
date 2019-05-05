@@ -9,7 +9,7 @@ thisProcess.openPorts;
 
 (
 SynthDef(\synth, {
-	arg freq = 200, amp = 0.5, density = 119, ffreq = 10000, time = 60;
+	arg freq = 200, amp = 0.4, density = 119, ffreq = 10000, time = 60;
 	//
 	~dust1 = Dust.kr(density: density);
 	~dust2 = Dust.kr(density: density);
@@ -34,9 +34,27 @@ SynthDef(\synth, {
 		high: 1.0,
 		lowcut: 500,
 		highcut: 2000);
-	~sig = Limiter.ar(~sig / 2 + ~reverb / 5, amp);
-	Out.ar([0, 1], Limiter.ar(~sig, 0.5));
+	~sig = Limiter.ar(~sig, amp);
+	~reverb = Limiter.ar(~reverb, amp);
+	Out.ar([0, 1], [~sig, ~reverb]);
 }).add;
+
+//FX chain
+//use busses 4 and up for signal processing
+/*SynthDef(\fxChain, {
+	arg freq = 200, amp = 0.1, density = 119, ffreq = 10000, time = 10;
+	//
+	~sig = In.ar(4);
+	~sig = ~sig = CombL.ar(
+		in: ~sig,
+		maxdelaytime: 0.2,
+		delaytime: time,
+		decaytime: 1.0,
+		mul: 1.0,
+		add: 0.0);
+	~sig = Limiter.ar(~sig, amp);
+	Out.ar([0, 1], ~sig);
+}).add;*/
 
 ~s = Synth(\synth);
 
@@ -55,8 +73,10 @@ SynthDef(\synth, {
 
 ~time = OSCFunc(func: {arg msg;
 	~s.set(\time, msg[1]);
-}, path: \time);
+}, path: \reverb);
 )
+
+s.numAudioBusChannels;
 
 //limiter werkt niet als je de frequentie van de synth verhoogt
 
