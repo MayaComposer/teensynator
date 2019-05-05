@@ -63,7 +63,7 @@ void loop() {
   Serial.write(dataOutB,4);
 
   //LDR3
-  LDR3 = analogRead(A3);
+  LDR3 = analogRead(A2);
   dataOutC[1] = LDR3 / 256;
   dataOutC[2] = LDR3 % 256;
   Serial.write(dataOutC,4);
