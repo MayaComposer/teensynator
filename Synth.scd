@@ -6,24 +6,18 @@ thisProcess.openUDPPort(7777);
 thisProcess.openPorts;
 )
 
-
+s.record;
+s.stopRecording;
 (
 SynthDef(\synth, {
-	arg freq = 200, amp = 0.4, density = 119, ffreq = 10000, time = 60;
+	arg freq = 49.69, amp = 0.8, amp2 = 0.5, density = 1000, ffreq = 10000, time = 60, q = 1.0;
 	//
 	~dust1 = Dust.kr(density: density);
 	~dust2 = Dust.kr(density: density);
 	~sig = Saw.ar(freq, [~dust1 * amp, ~dust2 * amp]);
-	~sig = LPF.ar(~sig, ffreq);
-	~sig = CombL.ar(
-		in: ~sig,
-		maxdelaytime: 0.2,
-		delaytime: time,
-		decaytime: 1.0,
-		mul: 1.0,
-		add: 0.0);
-	~reverb = JPverb.ar(~sig,
-		t60: 1.0,
+	~sig = BLowPass4.ar(~sig, ffreq, rq: q);
+	/*~reverb = JPverb.ar(~sig,
+		t60: time,
 		damp: 0.7,
 		size: time,
 		earlyDiff: 0.2,
@@ -33,11 +27,29 @@ SynthDef(\synth, {
 		mid: 1.0,
 		high: 1.0,
 		lowcut: 500,
-		highcut: 2000);
-	~sig = Limiter.ar(~sig, amp);
-	~reverb = Limiter.ar(~reverb, amp);
-	Out.ar([0, 1], [~sig, ~reverb]);
+		highcut: 2000);*/
+	~delay = CombL.ar(
+		in: ~sig,
+		maxdelaytime: 0.2,
+		delaytime: time,
+		decaytime: 0.8,
+		mul: 1.0,
+		add: 0.0);
+	~sig = Limiter.ar((~sig * amp2) + ~delay, amp);
+	Out.ar([0, 1], ~sig);
 }).add;
+
+~ffreq = OSCFunc(func: {arg msg;
+	~s.set(\ffreq, msg[1]);
+}, path: \ffreq);
+
+~density = OSCFunc(func: {arg msg;
+	~s.set(\density, msg[1]);
+}, path: \density);
+
+~time = OSCFunc(func: {arg msg;
+	~s.set(\amp2, msg[1]);
+}, path: \amp2);
 
 //FX chain
 //use busses 4 and up for signal processing
@@ -57,23 +69,6 @@ SynthDef(\synth, {
 }).add;*/
 
 ~s = Synth(\synth);
-
-//osc functions
-~freq = OSCFunc(func: {arg msg;
-	~s.set(\freq, msg[1]);
-}, path: \freq);
-
-~ffreq = OSCFunc(func: {arg msg;
-	~s.set(\ffreq, msg[1]);
-}, path: \ffreq);
-
-~density = OSCFunc(func: {arg msg;
-	~s.set(\density, msg[1]);
-}, path: \density);
-
-~time = OSCFunc(func: {arg msg;
-	~s.set(\time, msg[1]);
-}, path: \reverb);
 )
 
 s.numAudioBusChannels;
