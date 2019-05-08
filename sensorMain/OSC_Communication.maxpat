@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 40.0, 82.0, 1468.0, 724.0 ],
+		"rect" : [ 28.0, 82.0, 1468.0, 724.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -72,13 +72,12 @@
 					"floatoutput" : 1,
 					"id" : "obj-10",
 					"maxclass" : "dial",
-					"min" : 0.1,
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 1075.0, 350.0, 40.0, 40.0 ],
-					"size" : 59.899999999999999
+					"size" : 1.0
 				}
 
 			}
@@ -198,8 +197,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 946.0, 256.0, 107.0, 22.0 ],
-					"text" : "setminmax 0.1 60."
+					"patching_rect" : [ 946.0, 256.0, 93.0, 22.0 ],
+					"text" : "setminmax 0. 1."
 				}
 
 			}
@@ -208,13 +207,12 @@
 					"floatoutput" : 1,
 					"id" : "obj-22",
 					"maxclass" : "dial",
-					"min" : 0.1,
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 946.0, 303.0, 40.0, 40.0 ],
-					"size" : 59.899999999999999
+					"size" : 1.0
 				}
 
 			}
@@ -258,13 +256,13 @@
 					"floatoutput" : 1,
 					"id" : "obj-15",
 					"maxclass" : "dial",
-					"min" : 1500.0,
+					"min" : 500.0,
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 611.0, 303.0, 40.0, 40.0 ],
-					"size" : 8500.0
+					"size" : 9500.0
 				}
 
 			}
@@ -407,7 +405,16 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-10", 0 ],
+					"order" : 0,
+					"source" : [ "obj-21", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-22", 0 ],
+					"order" : 1,
 					"source" : [ "obj-21", 0 ]
 				}
 
