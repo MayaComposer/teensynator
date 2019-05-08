@@ -28,14 +28,15 @@ SynthDef(\synth, {
 		high: 1.0,
 		lowcut: 500,
 		highcut: 2000);*/
-	~delay = CombL.ar(
+	~delay = Greyhole.ar(~sig, delayTime: ffreq % 2.0, feedback: 0.2);
+	/*CombL.ar(
 		in: ~sig,
 		maxdelaytime: 0.2,
 		delaytime: time,
 		decaytime: 0.8,
 		mul: 1.0,
-		add: 0.0);
-	~sig = Limiter.ar((~sig * amp2) + ~delay, amp);
+		add: 0.0);*/
+	~sig = Limiter.ar((~sig * amp2) + (1 - amp2 * ~delay ), amp);
 	Out.ar([0, 1], ~sig);
 }).add;
 
