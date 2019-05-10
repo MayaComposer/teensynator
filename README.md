@@ -1,1 +1,6 @@
-A teensy based instrument using the HS-SR04, Max MSP and Arduino IDE.
+A set of instrument for a performance Creative System Design
+
+Includes:
+- Markov Chain generator that takes live MIDI input
+- Granular synthesiser that takes the data from the Markov Chain generator
+- Teensy based synthesiser controlled by LDR's
