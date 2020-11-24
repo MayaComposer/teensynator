@@ -6,4 +6,4 @@ Includes:
 - Teensy based synthesiser controlled by LDR's
 
 
-Made by Bas de Bruin, Tim Schoen and Thijs Engel
+Made by Bas de Bruin, Tim Schoen and Maya Engel
